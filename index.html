@@ -3,28 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Mathys Ribaltchenko</title>
-    <link rel="stylesheet" href="index.css">
+    <title>Mathys Ribaltchenko | Portefolio</title>
+    <link rel="stylesheet" href="style/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Mathys Ribaltchenko</h1> <p class="subtitle">Étudiant en 1ère année de BUT Informatique - IUT de Nantes</p> </header>
+    <div id="welcome-screen">
+        <div class="welcome-wrap">
+            <h1 id="welcome-text"></h1>
+            <span class="cursor">|</span>
+        </div>
+    </div>
 
-        <section class="description">
-            <p>Passionné par l'informatique et les mathématiques , je sais utiliser des outils comme <strong>Golang, Python et Shell</strong></p>
-        </section>
+    <canvas id="particles-canvas"></canvas>
 
-        <section class="links">
-            <h2>Mes Documents</h2>
-            <div class="button-group">
-                <a href="src/CV_Professionel_Mathys_Ribaltchenko.pdf" class="btn" target="_blank">Consulter mon CV</a>
-                <a href="src/Lettre_de_Motivation_Mathys_Ribaltchenko.pdf" class="btn btn-secondary" target="_blank">Lettre de Motivation</a>
+    <nav class="navbar">
+        <div class="nav-logo">MR.</div>
+        <div class="nav-links">
+            <a href="#" class="active">Accueil</a>
+            <a href="#">Projets</a>
+            <a href="#">Passions</a>
+        </div>
+    </nav>
+
+    <main class="container hidden-content" id="main-content">
+        <section class="hero-section">
+            <div class="hero-text">
+                <span class="badge">BUT Informatique · IUT de Nantes</span>
+                <h1>Mathys Ribaltchenko</h1>
+                <p class="description">
+                    Étudiant passionné par le monde de l'informatique et des mathématiques. Curieux, rigoureux et ouvert face aux défis, je développe mes compétences en conception logicielle et en architecture système.
+                </p>
+            </div>
+            <div class="hero-image">
+                <img src="src/Image_Mathys_Ribaltchenko.jpg" alt="Mathys Ribaltchenko" class="profile-img">
             </div>
         </section>
 
+        <section class="info-grid">
+            
+            <div class="card">
+                <h3>Outils numériques et Langages informatiques</h3>
+                <div class="skills-wrapper">
+                    <div class="skill-tag">Golang</div>
+                    <div class="skill-tag">Python</div>
+                    <div class="skill-tag">Shell</div>
+                    <div class="skill-tag">Linux / Terminal</div>
+                    <div class="skill-tag">Git / GitLab</div>
+                    <div class="skill-tag">VS Code</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Parcours & Expérience</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-title">BUT Informatique (1ère année)</div>
+                        <div class="timeline-place">IUT de Nantes · Depuis 2025</div>
+                        <p class="timeline-desc">Algorithmique, structures de données, développement système et gestion de bases de données.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-title">Ouvrier Intérimaire</div>
+                        <div class="timeline-place">Juillet 2025</div>
+                        <p class="timeline-desc">Développement d'une forte rigueur professionnelle et d'une grande adaptabilité au sein d'une équipe.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card narrow-card">
+                <h3>Langues</h3>
+                <ul class="languages-list">
+                    <li><strong>Français :</strong> Maternelle</li>
+                    <li><strong>Anglais :</strong> Niveau B2</li>
+                    <li><strong>Espagnol :</strong> Niveau B1</li>
+                </ul>
+            </div>
+
+        </section>
+
         <footer>
-            <p>Contact : <a href="mailto:mathys.ribalt@gmail.com">mathys.ribalt@gmail.com</a> | 07 66 16 90 66</p> </footer>
-    </div>
+            <div class="footer-content">
+                <p>📍 Bouaye, Loire-Atlantique</p>
+                <p>Contact : <a href="mailto:mathys.ribalt@gmail.com">mathys.ribalt@gmail.com</a> · 07 66 16 90 66</p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let particlesArray = [];
+        const numberOfParticles = 60; // Nombre de particules pour rester fluide et discret
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.25)'; // Bleu accent très transparent
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+    <script>
+        const welcomeText = "Bienvenue sur mon portefolio_";
+        const speed = 70; // Vitesse d'écriture (en ms)
+        let index = 0;
+
+        function typeWriter() {
+            if (index < welcomeText.length) {
+                document.getElementById("welcome-text").innerHTML += welcomeText.charAt(index);
+                index++;
+                setTimeout(typeWriter, speed);
+            } else {
+                // Une fois l'écriture finie, on attend 800ms puis on active la transition
+                setTimeout(() => {
+                    const screen = document.getElementById("welcome-screen");
+                    const mainContent = document.getElementById("main-content");
+                    
+                    screen.classList.add("fade-out");
+                    mainContent.classList.add("fade-in");
+                    
+                    // On supprime l'écran de bienvenue du DOM après l'animation
+                    setTimeout(() => screen.remove(), 1000);
+                }, 800);
+            }
+        }
+
+        // Lance l'animation au chargement de la page
+        window.onload = typeWriter;
+    </script>
 </body>
 </html>
