@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Projets | Mathys Ribaltchenko</title>
+    <link rel="stylesheet" href="style/projet.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-logo">MR.</div>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="projets.html" class="active">Projets</a>
+            <a href="#">Passions</a>
+        </div>
+    </nav>
+
+    <main class="container hidden-content" id="main-content">
+        
+        <header class="page-header">
+            <span class="badge">Portfolio</span>
+            <h1>Mes Projets</h1>
+            <p class="subtitle">Découvrez mes réalisations académiques, personnelles et professionnelles.</p>
+        </header>
+
+        <div class="projects-grid">
+            
+            <section class="project-category">
+                <h2>📚 Projets Scolaires</h2>
+                <div class="category-cards">
+                    
+                    <div class="project-card accent-card">
+                        <div class="project-tags">
+                            <span class="tag">Go / Golang</span>
+                            <span class="tag">IUT Nantes</span>
+                        </div>
+                        <h3>Projet Particule</h3>
+                        <p class="project-desc">
+                            Développement d'un système de simulation et de gestion de particules en temps réel. Optimisation des performances et manipulation des structures de données en Go.
+                        </p>
+                        <a href="https://github.com/Mathys-Ribaltchenko17/Projet-Particule.git" class="project-link" target="_blank">Voir le dépôt GitHub →</a>
+                    </div>
+
+                    <div class="project-card placeholder-card">
+                        <h3>SAE Évolution...</h3>
+                        <p class="project-desc">Nouveaux projets académiques et base de données relationnelle en cours de conception.</p>
+                        <span class="status-badge">En cours...</span>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="project-category">
+                <h2>💻 Projets Personnels</h2>
+                <div class="category-cards">
+                    
+                    <div class="project-card placeholder-card">
+                        <h3>Scripting & Automatisation</h3>
+                        <p class="project-desc">Création d'outils et de scripts personnalisés pour l'environnement Linux et l'administration système.</p>
+                        <span class="status-badge">Pour bientôt...</span>
+                    </div>
+
+                    <div class="project-card placeholder-card">
+                        <h3>Application Web / Portfolio</h3>
+                        <p class="project-desc">Conception et déploiement continu d'un espace personnel et de modules interactifs.</p>
+                        <span class="status-badge">En cours...</span>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="project-category">
+                <h2>💼 Projets Professionnels</h2>
+                <div class="category-cards">
+                    
+                    <div class="project-card placeholder-card">
+                        <h3>Projet d'Intégration Entreprise</h3>
+                        <p class="project-desc">Développement de solutions adaptées aux contraintes du monde professionnel et rigueur de production.</p>
+                        <span class="status-badge">Pour bientôt...</span>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>📍 Bouaye, Loire-Atlantique</p>
+                <p>Contact : <a href="mailto:mathys.ribalt@gmail.com">mathys.ribalt@gmail.com</a></p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // 1. Gestion de la transition fluide à l'arrivée sur la page
+        window.addEventListener('DOMContentLoaded', () => {
+            const mainContent = document.getElementById("main-content");
+            setTimeout(() => {
+                mainContent.classList.add("fade-in");
+            }, 100); // Laisse un mini délai pour un effet d'ouverture très fluide
+        });
+
+        // 2. Moteur de particules en arrière-plan
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        const numberOfParticles = 60;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.2)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
