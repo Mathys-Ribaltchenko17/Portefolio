@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes Passions | Mathys Ribaltchenko</title>
+    <link rel="stylesheet" href="style/passions.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <nav class="navbar">
+        <div class="nav-logo">MR.</div>
+        <div class="nav-links">
+            <a href="index.html">Accueil</a>
+            <a href="projets.html">Projets</a>
+            <a href="passions.html" class="active">Passions</a>
+        </div>
+    </nav>
+
+    <main class="container hidden-content" id="main-content">
+        
+        <header class="page-header">
+            <span class="badge">Au-delà du code</span>
+            <h1>Mes Passions</h1>
+            <p class="subtitle">Ce qui m'anime au quotidien et forge mes compétences humaines, de la créativité au dépassement de soi.</p>
+        </header>
+
+        <div class="passions-grid">
+            
+            <article class="passion-card">
+                <div class="passion-icon">🎨</div>
+                <div class="passion-content">
+                    <h2>Le Dessin & la Créativité</h2>
+                    <p class="passion-desc">
+                        Pratiquant le dessin depuis plusieurs années, j'ai développé un sens du détail et une forte sensibilité artistique. Cette discipline m'a permis de trouver mon propre univers visuel, notamment à travers quatre années de cours en association et des participations à différentes expositions. 
+                    </p>
+                    <div class="skills-highlight">
+                        <strong>Atouts développés :</strong> Créativité, minutie, conception visuelle et esprit d'innovation.
+                    </div>
+                </div>
+            </article>
+
+            <article class="passion-card">
+                <div class="passion-icon">🎭</div>
+                <div class="passion-content">
+                    <h2>Le Théâtre & l'Expression</h2>
+                    <p class="passion-desc">
+                        Le théâtre a été une véritable révélation dans mon parcours. En montant sur des scènes prestigieuses comme le Lieu Unique à Nantes, j'ai forgé une solide aisance à l'oral et une excellente gestion du public. Au-delà de l'expression oral, cette pratique exigeante m'a inculqué l'importance de la cohésion d'équipe.
+                    </p>
+                    <div class="skills-highlight">
+                        <strong>Atouts développés :</strong> Prise de parole en public, travail en binôme/équipe, communication fluide et assurance.
+                    </div>
+                </div>
+            </article>
+
+            <article class="passion-card">
+                <div class="passion-icon">🏃‍♂️</div>
+                <div class="passion-content">
+                    <h2>La Course à Pied & l'Endurance</h2>
+                    <p class="passion-desc">
+                         La course à pied m'apprend l'importance du dépassement de soi. Ce sport ne se résume pas seulement à l'effort physique : il forge un mental d'acier,apprends à gérer son stress et enseigne sur la gestion de l'effort sur différentes distances afin de connaître ses propres limites. Une capacité à tenir sur la durée qui résonne avec l'informatique.
+                    </p>
+                    <div class="skills-highlight">
+                        <strong>Atouts développés :</strong> Résilience, gestion du stress, persévérance et détermination.
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <p>📍 Bouaye, Loire-Atlantique</p>
+                <p>Contact : <a href="mailto:mathys.ribalt@gmail.com">mathys.ribalt@gmail.com</a></p>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Transition fluide à l'arrivée sur la page
+        window.addEventListener('DOMContentLoaded', () => {
+            const mainContent = document.getElementById("main-content");
+            setTimeout(() => {
+                mainContent.classList.add("fade-in");
+            }, 100); 
+        });
+
+        // Moteur de particules en arrière-plan
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+        const numberOfParticles = 60;
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) this.x = 0;
+                else if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                else if (this.y < 0) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.2)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
